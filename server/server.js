@@ -51,6 +51,11 @@ io.on('connection', function(socket){
         io.emit('userChange', `${userCount}`)
     });
     socket.on('chat message', function(msg){
+      if(!users[socket.id]){
+        socket.emit("error message",{
+          "message":"Session expired, aka the server restarted and your session data was deleted. sorry 'bout that."
+        })
+      }
       msg.username=users[socket.id].username+"#"+users[socket.id].id.substring(0,5);
         if(msg.username === '') return socket.emit('error message', {
           "message":"You can't have a blank username!"
