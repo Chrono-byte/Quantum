@@ -31,8 +31,15 @@ io.on('connection', function(socket){
         io.emit('userChange', `${userCount}`)
     });
     socket.on('chat message', function(msg){
-        if(msg.username === '') return socket.emit('chat message', 'SERVER: NO BLANK USERNAMES');
-        if(msg.msg === '') return socket.emit('chat message', 'SERVER: NO BLANK MESSAGES');
+        if(msg.username === '') return socket.emit('error message', {
+          "message":"You can't have a blank username!"
+        });
+        if(msg.msg === '') return socket.emit('error message', {
+          "message":"You can't send a blank message!"
+        });
+        if(msg.msg.length > 500) return socket.emit("error message", {
+          "message":"Message is too big (>500)"
+        });
         if(msg.msg === '/foo') {
             io.emit('chat message', `${msg.username}: I love foobar`)
         } else
@@ -49,7 +56,7 @@ io.on('connection', function(socket){
             console.log(`New Message: ${msg.username}: ${msg.msg}`)
         }
     });
-});    
+});
 
 http.listen(80, function(){
   console.log('listening on *:80');

@@ -76,9 +76,9 @@
         $(function () {
         var socket = io();
     $('form').submit(function(){
-      socket.emit('chat message', 
+      socket.emit('chat message',
         {
-          "username": `${$('#username').val()}`, 
+          "username": `${$('#username').val()}`,
           "msg": `${$('#m').val()}`
         });
       $('#m').val('');
@@ -88,7 +88,11 @@
       $('#content').append($('<li>').text(msg));
     });
     socket.on('userChange', function(userCount){
-      $('#users').append($('<li>').text(userCount))
+      $('#users').text(userCount);
+    });
+    socket.on('error message',function(e){
+      $(".error-content").text(e.message);
+      $("#error-box").modal("show");
     });
   });
 </script>
@@ -102,6 +106,22 @@
                 <input type="text" id="m" placeholder="Message"/>
                 <input type="submit" id="sinput">
             </form>
+        </div>
+        <div id="error-box" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Error</h4>
+              </div>
+              <div class="modal-body error-content">
+                <p>No error atm</p>
+              </div>
+            </div>
+
+          </div>
         </div>
     </body>
 </html>
