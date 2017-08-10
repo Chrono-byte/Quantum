@@ -42,6 +42,7 @@ io.on('connection', function(socket){
         if(msg.msg.length > 500) return socket.emit("error message", {
           "message":"Message is too big (>500)"
         });
+        console.log(msg.msg.match(/-([\S]*?)-/g));
         if(msg.msg === '/foo') {
             io.emit('chat message', `${msg.username}: I love foobar`)
         } else
@@ -68,7 +69,7 @@ io.on('connection', function(socket){
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
             exec('node status.js update',function(){});
-            socket.emit('chat message','<b>Result:</b><br><br><div class="panel">'+stdout+'</div>');
+            socket.emit('server message','<b>Result:</b><br><br><div class="panel">'+stdout+'</div>');
           });
         }
     });

@@ -93,6 +93,9 @@
       $(".error-content").text(e.message);
       $("#error-box").modal("show");
     });
+    socket.on('server message',function(m){
+      $("#content").append($('<li>').html(m));
+    });
   });
 </script>
     <body>
