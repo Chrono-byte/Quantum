@@ -29,7 +29,9 @@ io.on('disconnect', function(){
 var users=[];
 
 io.on('connection', function(socket){
-  socket.emit('who are you');
+  socket.on('ready',function(){
+    socket.emit('who are you');
+  });
   socket.on('id',function(i){
     if(users[socket.id]){
       socket.emit("error message",{

@@ -83,6 +83,7 @@
       $('#m').val('');
       return false;
     });
+    socket.emit("ready");
     socket.on('chat message', function(msg){
       $('#content').append($('<li>').text(msg));
     });
