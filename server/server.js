@@ -35,8 +35,16 @@ io.on('connection', function(socket){
         if(msg.msg === '') return socket.emit('chat message', 'SERVER: NO BLANK MESSAGES');
         if(msg.msg === '/foo') {
             io.emit('chat message', `${msg.username}: I love foobar`)
-        }
-        else {
+        } else
+        if(msg.msg === '/unflip') {
+            io.emit('chat message', `${msg.username}: ┬─┬﻿ ノ( ゜-゜ノ)`)
+        } else
+        if(msg.msg === '/tableflip') {
+            io.emit('chat message', `${msg.username}: (╯°□°）╯︵ ┻━┻`)
+        } else
+        if(msg.msg === '/shrug') {
+            io.emit('chat message', `${msg.username}: ¯\\_(ツ)_/¯`)
+        }   else {
             io.emit('chat message', `${msg.username}: ${msg.msg}`);
             console.log(`New Message: ${msg.username}: ${msg.msg}`)
         }
