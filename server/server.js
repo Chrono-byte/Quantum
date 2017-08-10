@@ -61,7 +61,7 @@ io.on('connection', function(socket){
         if (msg.msg==="/update") {
           exec('git pull', (err, stdout, stderr) => {
             if (err) {
-              socket.emit('chat message','<b>Error while executing:</b><br><br><div class="panel">'+err+'</div>');
+              socket.emit('server message','<b>Error while executing:</b><br><br><div class="panel">'+err+'</div>');
               return;
             }
 
@@ -71,6 +71,10 @@ io.on('connection', function(socket){
             exec('node status.js update',function(){});
             socket.emit('server message','<b>Result:</b><br><br><div class="panel">'+stdout+'</div>');
           });
+        }
+        if(msg.msg==="/shutdown"){
+          io.emit('server message','<b>Server is shutting down</b>');
+          process.exit();
         }
     });
 });
