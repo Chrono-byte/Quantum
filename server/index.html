@@ -110,7 +110,11 @@
     });
     socket.on('who am i',function(me){
       window.me=me;
-      $("#username").text(me.tag);
+      $("#username").val(me.tag);
+    });
+    socket.on('users',function(users){
+      $(".user-list").html("");
+      $(".user-list").html(users.map(u=>"<li>"+u+"</li>"));
     });
   });
 </script>
@@ -118,6 +122,12 @@
         <div class="container-fluid">
             <h1>Quantum</h1>
             <p>User Count</p> <div id="users"></div>
+            <div class="panel panel-success">
+              <h3>Users</h3>
+              <ul class="user-list">
+
+              </ul>
+            </div>
             <p>Chat</p> <div id="content"></div>
             <form action="">
                 <input type="username" id="username" placeholder="Username" disabled/>
