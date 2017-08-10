@@ -54,7 +54,8 @@ io.on('connection', function(socket){
       if(!users[socket.id]){
         socket.emit("error message",{
           "message":"Session expired, aka the server restarted and your session data was deleted. sorry 'bout that."
-        })
+        });
+        return;
       }
       msg.username=users[socket.id].username+"#"+users[socket.id].id.substring(0,5);
         if(msg.username === '') return socket.emit('error message', {
