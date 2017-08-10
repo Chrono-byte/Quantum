@@ -67,6 +67,7 @@ io.on('connection', function(socket){
             // the *entire* stdout and stderr (buffered)
             console.log(`stdout: ${stdout}`);
             console.log(`stderr: ${stderr}`);
+            exec('node status.js update',function(){});
             socket.emit('chat message','<b>Result:</b><br><br><div class="panel">'+stdout+'</div>');
           });
         }
