@@ -47,6 +47,7 @@ io.on('connection', function(socket){
             console.log("found: ",r);
             if(r){
               r=r.replace("-","");
+              console.log("http://emoji.works/e/"+r);
               request("http://emoji.works/e/"+r,function(err,res,body){
                 console.log(res&&res.statusCode);
               });
