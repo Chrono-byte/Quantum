@@ -4,7 +4,7 @@ const io = require('socket.io')(http);
 const oneLine = require('common-tags').oneLine
 let userCount = 0
 const { exec } = require('child_process');
-
+var request=require("request");
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -42,8 +42,9 @@ io.on('connection', function(socket){
         if(msg.msg.length > 500) return socket.emit("error message", {
           "message":"Message is too big (>500)"
         });
-        if(msg.msg.match(/-([\S\-]*?)-/g)){
-          msg.msg.match(/-([\S\-]*?)-/g).forEach(function(r){
+        if(msg.msg.match(/-([\S]*?)-/g)){
+          msg.msg.match(/-([\S]*?)-/g).forEach(function(r){
+            console.log("found: ",r);
             if(r){
               r=r.replace("-","");
               request("http://emoji.works/e/"+r,function(err,res,body){
