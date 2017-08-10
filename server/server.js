@@ -24,9 +24,23 @@ io.on('disconnect', function(){
         console.log('a user connected');
         userCount = userCount+1
         io.emit('userChange', `${userCount}`)
-    })
+    });
+
+var users=[];
 
 io.on('connection', function(socket){
+  socket.emit('who are you');
+  socket.on('id',function(i){
+    if(users[socket.id]){
+      socket.emit("error message",{
+        "message":"no, bad. You already told me your id"
+      });
+    } else {
+      users[socket.id]=i;
+      users[socket.id].id=socket.id;
+      socket.emit('server message','<b>You are:</b> '+users[socket.id].username+"#"+users[socket.id].id);
+    }
+  });
     socket.on('disconnect', function(){
         console.log('a user disconnected');
         userCount = userCount-1
@@ -51,7 +65,6 @@ io.on('connection', function(socket){
               request("http://emoji.works/e/"+r,function(err,res,body){
                 if(res&&res.statusCode!==404){
                   msg.msg=msg.msg.replace("-"+r+"-","<img src='http://emoji.works/e/"+r+"'></img>");
-                  io.emit('chat message', `${msg.username}: ${msg.msg}`)
                 }
               });
             }

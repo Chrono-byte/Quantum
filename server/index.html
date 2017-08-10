@@ -96,6 +96,14 @@
     socket.on('server message',function(m){
       $("#content").append($('<li>').html(m));
     });
+    socket.on('who are you',function(){
+      $("#id-box").modal("show");
+      $(".id-finish").one("click",function(){
+        socket.emit("id",{
+          "username":$(".id-name").val()
+        });
+      });
+    });
   });
 </script>
     <body>
@@ -120,6 +128,24 @@
               </div>
               <div class="modal-body error-content">
                 <p>No error atm</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div id="id-box" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Who are you?</h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                  <input type="text" placeholder="Whats your name?" class="id-name" /><br />
+                  <button class="id-finish">Done</button>
+                </p>
               </div>
             </div>
 
