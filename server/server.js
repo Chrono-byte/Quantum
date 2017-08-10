@@ -40,7 +40,9 @@ io.on('connection', function(socket){
     } else {
       users[socket.id]=i;
       users[socket.id].id=socket.id;
+      users[socket.id].tag=users[socket.id].username+"#"+socket.id.splice(0,5);
       socket.emit('server message','<b>You are:</b> '+users[socket.id].username+"#"+users[socket.id].id);
+      socket.emit('who am i',users[socket.id]);
     }
   });
     socket.on('disconnect', function(){
@@ -49,6 +51,7 @@ io.on('connection', function(socket){
         io.emit('userChange', `${userCount}`)
     });
     socket.on('chat message', function(msg){
+      msg.username=users[socket.id].username+"#"+users[socket.id].id.splice(0,5);
         if(msg.username === '') return socket.emit('error message', {
           "message":"You can't have a blank username!"
         });

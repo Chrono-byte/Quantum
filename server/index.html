@@ -103,7 +103,12 @@
         socket.emit("id",{
           "username":$(".id-name").val()
         });
+        $("#id-box").remove();
       });
+    });
+    socket.on('who am i',function(me){
+      window.me=me;
+      $("#username").text(me.tag);
     });
   });
 </script>
@@ -113,7 +118,7 @@
             <p>User Count</p> <div id="users"></div>
             <p>Chat</p> <div id="content"></div>
             <form action="">
-                <input type="username" id="username" placeholder="Username"/>
+                <input type="username" id="username" placeholder="Username" disabled/>
                 <input type="text" id="m" placeholder="Message"/>
                 <input type="submit" id="sinput">
             </form>
