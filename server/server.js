@@ -49,7 +49,10 @@ io.on('connection', function(socket){
               r=r.replace("-","").replace("-","");
               console.log("http://emoji.works/e/"+r);
               request("http://emoji.works/e/"+r,function(err,res,body){
-                console.log(res&&res.statusCode);
+                if(res&&res.statusCode!==404){
+                  msg.msg=msg.msg.replace("-"+r+"-","<img src='http://emoji.works/e/"+r+"'></img>");
+                  io.emit('chat message', `${msg.username}: ${msg.msg}`)
+                }
               });
             }
           });
