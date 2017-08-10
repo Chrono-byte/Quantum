@@ -3,6 +3,8 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const oneLine = require('common-tags').oneLine
 let userCount = 0
+const { exec } = require('child_process');
+
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -54,6 +56,19 @@ io.on('connection', function(socket){
         }   else {
             io.emit('chat message', `${msg.username}: ${msg.msg}`);
             console.log(`New Message: ${msg.username}: ${msg.msg}`)
+        }
+        if (msg.msg==="/update") {
+          exec('git pull', (err, stdout, stderr) => {
+            if (err) {
+              socket.emit('chat message','<b>Error while executing:</b><br><br><div class="panel">'+err+'</div>');
+              return;
+            }
+
+            // the *entire* stdout and stderr (buffered)
+            console.log(`stdout: ${stdout}`);
+            console.log(`stderr: ${stderr}`);
+            socket.emit('chat message','<b>Result:</b><br><br><div class="panel">'+stdout+'</div>');
+          });
         }
     });
 });
