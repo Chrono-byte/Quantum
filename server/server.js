@@ -40,7 +40,7 @@ io.on('connection', function(socket){
     } else {
       users[socket.id]=i;
       users[socket.id].id=socket.id;
-      users[socket.id].tag=users[socket.id].username+"#"+socket.id.splice(0,5);
+      users[socket.id].tag=users[socket.id].username+"#"+(socket.id.toString()).splice(0,5);
       socket.emit('server message','<b>You are:</b> '+users[socket.id].username+"#"+users[socket.id].id);
       socket.emit('who am i',users[socket.id]);
     }
