@@ -58,11 +58,7 @@ io.on('connection', function(socket){
         });
         return;
       }
-      users.forEach(function(u){
-        if(u.socket){
-          u.socket.emit('users',users.map(u=>u.tag));
-        }
-      });
+      io.emit('users',users.map(u=>u.tag));
       msg.username=users[socket.id].username+"#"+users[socket.id].id.substring(0,5);
         if(msg.username === '') return socket.emit('error message', {
           "message":"You can't have a blank username!"
