@@ -103,6 +103,7 @@
         socket.emit("id",{
           "username":$(".id-name").val()
         });
+        $("#id-box").modal("hide");
         $("#id-box").remove();
       });
     });
